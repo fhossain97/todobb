@@ -15,7 +15,7 @@ app.use(morgan('tiny'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use('/tasks', taskRoutes)
+app.use('/task', taskRoutes)
 app.use('/user', userRoutes)
 
 
