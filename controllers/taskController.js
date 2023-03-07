@@ -6,7 +6,10 @@ const indexRoute = async (req, res) => {
     let allTasks = await Task.find({}).populate('owner')
     console.log(allTasks, 'List of tasks')
     res.json(allTasks)
+
 }
+
+//createRoute - creates a new task
 
 const createRoute = async (req, res) => {
     let newTask = await new Task(req.body)
@@ -14,19 +17,25 @@ const createRoute = async (req, res) => {
         if(err) {
             console.log(err, 'Error in saving new task')
         } else {
-            console.log(newTask, 'Task was saved')
+        
+            Task.findById(newTask._id).populate('owner')
+            res.json(newTask)
+            console.log(newTask, 'New Task')
         }
     }
     )
-    Task.findById(newTask._id).populate('owner')
-    console.log(newTask._id, 'Task ID')
+
 
 }
+
+//updateRoute - edit the task
 
 const updateRoute = async (req, res) => {
-    await Task.findByIdAndUpdate(req.params.id, req.body).res.populate('owner')
+    await Task.findByIdAndUpdate(req.params.id, req.body).populate('owner')
     res.redirect('/tasks')
 }
+
+//deleteRoute - remove the task
 
 const deleteRoute = async (req, res) => {
     await Task.findByIdAndDelete(req.params.id)
