@@ -1,7 +1,5 @@
 //require installs
 const express = require("express");
-const session = require("express-session");
-const passport = require("passport");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
@@ -12,13 +10,13 @@ const taskRoutes = require("./routes/taskRoutes");
 
 require("dotenv").config();
 require("./db/connection");
-require("./db/passport");
+// require("./db/passport");
 
 //middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 app.use(morgan("tiny"));
-app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 
@@ -30,13 +28,8 @@ app.use(methodOverride("_method"));
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-app.use("/tasks", taskRoutes);
+app.use("/home", taskRoutes);
 // app.use('/user', userRoutes)
-
-//home route for testing
-app.get("/", (req, res) => {
-  res.send("Home page");
-});
 
 //app is listening on this port
 app.listen(PORT, () => {
