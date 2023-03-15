@@ -7,23 +7,21 @@ const indexRoute = (req, res) => {
       return res.status(400).json(err);
     }
     res.json(tasks);
-    console.log(tasks)
-  })
-  .populate("owner");
+    console.log(tasks, 'tasks')
+  });
 };
 
 //createRoute - creates a new task
 const createRoute = (req, res) => {
   let newTask = new Task(req.body);
+  console.log(req.body);
   newTask.save(() => console.log(newTask, "New Task"));
-  Task.findById(newTask._id).populate("owner");
-  res.json(newTask);
-  console.log(newTask)
+  Task.findById(newTask._id).then(() => res.json(newTask));
 };
 
 //updateRoute - edit the task
 const updateRoute = async (req, res) => {
-  await Task.findByIdAndUpdate(req.params.id, req.body).populate("owner");
+  await Task.findByIdAndUpdate(req.params.id, req.body);
   res.redirect("/");
 };
 

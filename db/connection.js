@@ -7,8 +7,13 @@ mongoose.connect(process.env.DATABASE_URL, {
     useUnifiedTopology: true,
 })
 
+.then(instance => {
+    console.log(`Connected on ${instance.connections[0].name}`)
+})
+.catch(err => console.log(`Error! See details: ${err}`))
+
 const mongodb = mongoose.connection;
 
 mongodb.on('connected', () => {
-    console.log(`Connected at ${mongodb.host}:${mongodb.port}`)
+    console.log(`Connected at Host:${mongodb.host} & Port: ${mongodb.port}`)
 })
