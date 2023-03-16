@@ -7,16 +7,23 @@ const indexRoute = (req, res) => {
       return res.status(400).json(err);
     }
     res.json(tasks);
-    console.log(tasks, 'tasks')
   });
 };
 
 //createRoute - creates a new task
 const createRoute = (req, res) => {
+  console.log(req.body, "Req.body");
   let newTask = new Task(req.body);
-  console.log(req.body);
   newTask.save(() => console.log(newTask, "New Task"));
   Task.findById(newTask._id).then(() => res.json(newTask));
+};
+
+//showRoute - show each task
+
+const showRoute = (req, res) => {
+  Task.findById(req.params.id).then((task) => {
+    res.json(task);
+  });
 };
 
 //updateRoute - edit the task
@@ -34,6 +41,7 @@ const deleteRoute = async (req, res) => {
 module.exports = {
   indexRoute,
   createRoute,
+  showRoute,
   updateRoute,
   deleteRoute,
 };
