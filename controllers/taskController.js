@@ -33,10 +33,19 @@ const updateRoute = async (req, res) => {
 };
 
 //deleteRoute - remove the task
-const deleteRoute = async (req, res) => {
-  await Task.findByIdAndDelete(req.params.id);
-  res.redirect("/");
+const deleteRoute =  (req, res) => {
+  Task.findByIdAndDelete(req.params.id, (error, task)=>{
+    if(error){
+      res.status(400).json(err)
+        return
+    }
+    res.json(task)
+
+  
+  });
 };
+
+
 
 module.exports = {
   indexRoute,
