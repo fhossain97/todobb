@@ -3,8 +3,7 @@ const taskCtrl = require("../controllers/taskController");
 
 router.get('/', taskCtrl.indexRoute)
 router.post('/', taskCtrl.createRoute);
-router.get('/:id', taskCtrl.showRoute)
 router.put('/:id', taskCtrl.updateRoute)
-router.delete('/:id', taskCtrl.deleteRoute)
+router.delete('/', taskCtrl.deleteRoute)
 
 module.exports = router;

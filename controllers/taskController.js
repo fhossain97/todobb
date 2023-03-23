@@ -15,16 +15,9 @@ const createRoute = (req, res) => {
   console.log(req.body, "Req.body");
   let newTask = new Task(req.body);
   newTask.save(() => console.log(newTask, "New Task"));
-  Task.findById(newTask._id).then(() => res.json(newTask));
+  Task.findOne(newTask._id).then(() => res.json(newTask));
 };
 
-//showRoute - show each task
-
-const showRoute = (req, res) => {
-  Task.findById(req.params.id).then((task) => {
-    res.json(task);
-  });
-};
 
 //updateRoute - edit the task
 const updateRoute = async (req, res) => {
@@ -33,24 +26,19 @@ const updateRoute = async (req, res) => {
 };
 
 //deleteRoute - remove the task
-const deleteRoute =  (req, res) => {
-  Task.findByIdAndDelete(req.params.id, (error, task)=>{
-    if(error){
-      res.status(400).json(err)
-        return
+const deleteRoute = (req, res) => {
+  Task.findOneAndDelete(req.params.id, (error, task) => {
+    if (error) {
+      res.status(400).json(err);
+      return;
     }
-    res.json(task)
-
-  
+    res.json(task);
   });
 };
-
-
 
 module.exports = {
   indexRoute,
   createRoute,
-  showRoute,
   updateRoute,
   deleteRoute,
 };
