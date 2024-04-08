@@ -2,7 +2,6 @@ const passport = require("passport");
 const User = require("../models/user");
 const GitHubStrategy = require("passport-github2");
 
-//using GH to let user login
 passport.use(
   new GitHubStrategy(
     {
@@ -31,11 +30,8 @@ passport.use(
   )
 );
 
-
-//set up session for when user is logged in
 passport.serializeUser((user, done) => done(null, user.id));
 
-//request from existing user comes in
 passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
     done(err, user);

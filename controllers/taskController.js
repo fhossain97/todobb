@@ -1,6 +1,5 @@
 const Task = require("../models/task");
 
-//indexRoute - shows all the tasks
 const indexRoute = (req, res) => {
   Task.find({}, (err, tasks) => {
     if (err) {
@@ -17,7 +16,6 @@ const createRoute = (req, res) => {
   newTask.save(() => console.log(newTask, "New Task"));
   Task.findOne(newTask._id).then(() => res.json(newTask));
 };
-
 
 //updateRoute - edit the task
 const updateRoute = async (req, res) => {
