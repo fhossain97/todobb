@@ -9,7 +9,6 @@ const indexRoute = (req, res) => {
   });
 };
 
-//createRoute - creates a new task
 const createRoute = (req, res) => {
   console.log(req.body, "Req.body");
   let newTask = new Task(req.body);

@@ -1,16 +1,13 @@
 const router = require("express").Router();
 const passport = require("passport").Strategy;
 
-router.get(
-  "/auth/github",
-  passport.authenticate("github", { scope: ["profile", "email"] })
-);
+router.get("/auth/github", passport.authenticate("github"));
 
 router.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
   function (req, res) {
-    res.redirect("/tasks");
+    res.redirect("/");
   }
 );
 

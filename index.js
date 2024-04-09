@@ -4,6 +4,7 @@ const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 const PORT = 8000;
+const session = require("express-session");
 const methodOverride = require("method-override");
 const taskRoutes = require("./routes/taskRoutes");
 const passport = require("passport");
@@ -17,6 +18,8 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+
+app.use(session({ secret: "whatevs" }));
 
 app.use(passport.initialize());
 app.use(passport.session());

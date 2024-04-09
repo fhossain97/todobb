@@ -10,22 +10,24 @@ passport.use(
       callbackURL: process.env.CALLBACK_URL,
     },
     function (accessToken, refreshToken, profile, done) {
-      User.findOrCreate({ githubId: profile.id }, function (err, user) {
-        if (err) return done(err);
-        if (user) {
-          return done(null, user);
-        } else {
-          let newUser = new User({
-            name: profile.displayname,
-            email: profile.emails[0].value,
-            githubId: profile.id,
-          });
-          newUser.save(function (err) {
-            if (err) return done(err);
-            return done(null, newUser);
-          });
-        }
-      });
+      done(null, profile.id);
+      // User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      //   if (err) return done(err);
+      //   if (user) {
+      //     return done(null, profile.id);
+      //   }
+      // else {
+      //   let newUser = new User({
+      //     name: profile.displayname,
+      //     email: profile.emails[0].value,
+      //     githubId: profile.id,
+      //   });
+      //   newUser.save(function (err) {
+      //     if (err) return done(err);
+      //     return done(null, newUser);
+      //   });
+      // }
+      // });
     }
   )
 );
