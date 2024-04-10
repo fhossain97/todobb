@@ -1,7 +1,5 @@
 const passport = require("passport");
-
 const User = require("../models/user");
-
 const GitHubStrategy = require("passport-github2");
 
 passport.use(
