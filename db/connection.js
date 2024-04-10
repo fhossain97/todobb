@@ -13,5 +13,5 @@ mongoose
 const mongodb = mongoose.connection;
 
 mongodb.on("connected", () => {
-  console.log(`Connected at on Port: ${mongodb.port}`);
+  console.log(`Connected on Port: ${mongodb.port}`);
 });

@@ -1,13 +1,25 @@
 const router = require("express").Router();
-const passport = require("passport").Strategy;
+const passport = require("passport");
 
-router.get("/auth/github", passport.authenticate("github"));
+router.get(
+  "/auth/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  function (req, res) {
+    res.json(req.user);
+  }
+);
 
 router.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
   function (req, res) {
-    res.redirect("/");
+    if (!req.user) {
+      console.log("Authentication failed");
+      return res.redirect("/");
+    }
+
+    console.log("User authenticated:", req.user);
+    res.redirect("http://localhost:3000");
   }
 );
 

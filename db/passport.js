@@ -1,5 +1,7 @@
 const passport = require("passport");
+
 const User = require("../models/user");
+
 const GitHubStrategy = require("passport-github2");
 
 passport.use(
@@ -9,33 +11,39 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL,
     },
+
     function (accessToken, refreshToken, profile, done) {
-      done(null, profile.id);
-      // User.findOrCreate({ githubId: profile.id }, function (err, user) {
-      //   if (err) return done(err);
-      //   if (user) {
-      //     return done(null, profile.id);
-      //   }
-      // else {
-      //   let newUser = new User({
-      //     name: profile.displayname,
-      //     email: profile.emails[0].value,
-      //     githubId: profile.id,
-      //   });
-      //   newUser.save(function (err) {
-      //     if (err) return done(err);
-      //     return done(null, newUser);
-      //   });
-      // }
-      // });
+      User.findOne({ githubId: profile.id }, function (err, user) {
+        if (err) {
+          console.error("Error finding or creating user:", err);
+          return done(err);
+        }
+        if (user) {
+          return done(null, profile.id);
+        } else {
+          let newUser = new User({
+            name: profile.displayname,
+            username: profile.username,
+            githubId: profile.id,
+          });
+          newUser.save(function (err, savedUser) {
+            if (err) {
+              console.error("Error saving new user:", err);
+              return done(err);
+            }
+            console.log("New user saved:", savedUser);
+            return done(null, savedUser);
+          });
+        }
+      });
     }
   )
 );
 
-passport.serializeUser((user, done) => done(null, user.id));
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
-  });
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
 });
