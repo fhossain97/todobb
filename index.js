@@ -9,10 +9,8 @@ const methodOverride = require("method-override");
 const taskRoutes = require("./routes/taskRoutes");
 const oauthRoutes = require("./routes/oauth");
 const passport = require("passport");
-
-require("./db/connection");
 require("dotenv").config();
-require("./db/passport");
+require("./db/connection");
 
 app.use(cors());
 app.use(morgan("tiny"));
@@ -34,5 +32,5 @@ app.use("/", oauthRoutes);
 // app.use("/", taskRoutes);
 
 app.listen(PORT, () => {
-  console.log("helloooooo from nodejs");
+  console.log(`Server connected on port: ${PORT}`);
 });
