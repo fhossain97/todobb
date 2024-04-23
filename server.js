@@ -7,15 +7,14 @@ const PORT = 8000;
 const session = require("express-session");
 const methodOverride = require("method-override");
 const taskRoutes = require("./routes/taskRoutes");
-const oauthRoutes = require("./routes/oauth");
-const passport = require("passport");
+const userRoutes = require("./routes/userRoutes");
 require("dotenv").config();
 require("./db/connection");
 
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 
 app.use(
@@ -26,10 +25,8 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-app.use("/", oauthRoutes);
-// app.use("/", taskRoutes);
+app.use("/", taskRoutes);
+app.use("/user", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server connected on port: ${PORT}`);

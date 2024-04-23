@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
+const User = require("./user");
 
 const taskSchema = new mongoose.Schema({
   date: String,
   title: String,
   description: String,
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  owner: User,
 });
 
 const Task = mongoose.model("Task", taskSchema);
